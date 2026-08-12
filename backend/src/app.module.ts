@@ -31,7 +31,10 @@ import { HealthController } from './health.controller';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        uri: config.get<string>('MONGO_URI') || 'mongodb://localhost:27017/fluentwork-chat',
+        uri:
+          config.get<string>('MONGO_URI') ||
+          config.get<string>('NOSQL_URL') ||
+          'mongodb://localhost:27017/fluentwork-chat',
       }),
     }),
     AuthModule,

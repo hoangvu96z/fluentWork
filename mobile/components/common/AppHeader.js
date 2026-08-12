@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     marginBottom: 18,
   },
   headerLeft: { alignItems: 'flex-start' },
-  brandWrap: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  brandWrap: { flexDirection: 'row', alignItems: 'center' },
   brandMark: {
     width: 32,
     height: 32,
@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 32,
     fontWeight: '700',
+    marginRight: 8,
   },
   brandText: { fontSize: 28, fontWeight: '700', color: '#1e2e39' },
   title: { fontSize: 20, fontWeight: '700', color: '#22313d' },
