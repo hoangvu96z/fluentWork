@@ -8,19 +8,24 @@ import { CreateUserDto } from './dto/create-user.dto';
 export class UsersService {
   constructor(
     @InjectRepository(User)
-    private usersRepo: Repository<User>,
+    private readonly usersRepo: Repository<User>,
   ) {}
 
-  async findAll() {
+  async findAll(): Promise<User[]> {
     return this.usersRepo.find();
   }
 
-  async findByEmail(email: string) {
+  async findByEmail(email: string): Promise<User | null> {
     return this.usersRepo.findOne({ where: { email } });
   }
 
-  async create(data: CreateUserDto) {
-    const user = this.usersRepo.create(data as any);
+  async create(data: CreateUserDto): Promise<User> {
+    const user = this.usersRepo.create({
+      email: data.email,
+      displayName: data.displayName,
+      password: data.password,
+    });
+
     return this.usersRepo.save(user);
   }
 }

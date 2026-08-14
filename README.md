@@ -1,17 +1,39 @@
-# fluentWork
+# FluentWork
 
-Project scaffold: added basic backend and mobile scaffolding.
+FluentWork is a full-stack app with a NestJS backend and a React Native / Expo mobile client.
 
-- Backend: [backend/README.md](backend/README.md#L1).
-- Mobile: [mobile/README.md](mobile/README.md#L1).
-- Architecture: [ARCHITECTURE.md](ARCHITECTURE.md).
+## Project structure
 
-Run steps:
+- Backend: [backend/](backend/)
+- Mobile app: [mobile/](mobile/)
+- Architecture notes: [ARCHITECTURE.md](ARCHITECTURE.md)
+- CI/CD workflow: [.github/workflows/deploy.yml](.github/workflows/deploy.yml)
+
+## Standard workflow
 
 ```bash
-# Backend
-cd backend && npm install && npm run start:dev
+# Install dependencies for both apps
+npm install --prefix backend
+npm install --prefix mobile
 
-# Mobile
-cd mobile && npm install && npx expo start
+# Run backend
+npm run start:dev --prefix backend
+
+# Run mobile
+npm start --prefix mobile
 ```
+
+## Environment configuration
+
+Copy the example files before running the apps:
+
+```bash
+cp backend/.env.example backend/.env
+cp mobile/.env.example mobile/.env
+```
+
+## Main responsibilities
+
+- Backend handles auth, users, courses, and chat APIs.
+- Mobile app contains screens, navigation, and reusable UI components.
+- Shared conventions keep the repo predictable and easier to scale.

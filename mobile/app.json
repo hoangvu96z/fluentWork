@@ -1,0 +1,18 @@
+{
+  "expo": {
+    "name": "FluentWork",
+    "slug": "fluentwork-mobile",
+    "version": "1.0.0",
+    "sdkVersion": "51.0.0",
+    "platforms": ["android", "ios", "web"],
+    "orientation": "portrait",
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "android": {
+      "package": "com.fluentwork.app",
+      "versionCode": 1
+    }
+  }
+}

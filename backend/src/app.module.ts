@@ -8,10 +8,14 @@ import { CoursesModule } from './modules/courses/courses.module';
 import { ChatModule } from './modules/chat/chat.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { HealthController } from './health.controller';
+import { validateEnvironment } from './config/env.config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      validate: (config) => validateEnvironment(config),
+    }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -20,8 +24,8 @@ import { HealthController } from './health.controller';
         host: config.get<string>('DB_HOST') || 'localhost',
         port: Number(config.get<number>('DB_PORT') || 5432),
         username: config.get<string>('DB_USER') || 'postgres',
-        password: config.get<string>('DB_PASS') || '',
-        database: config.get<string>('DB_NAME') || 'postgres',
+        password: config.get<string>('DB_PASS') || 'postgres',
+        database: config.get<string>('DB_NAME') || 'fluentwork',
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: true,
         logging: false,

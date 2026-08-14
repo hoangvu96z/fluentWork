@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -23,6 +24,7 @@ export function LoginScreen({ navigation }) {
         return res.json();
       })
       .then((data) => {
+        AsyncStorage.setItem('fw_token', data.token || '');
         navigation.replace('Home');
       })
       .catch((err) => {

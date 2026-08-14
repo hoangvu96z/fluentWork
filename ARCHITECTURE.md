@@ -1,59 +1,59 @@
 # FluentWork Architecture
 
-This repository contains two main app layers:
+This repository follows a simple monorepo structure with two main app layers.
 
 ## Backend
 
 Location: `backend/`
 
-- `src/app.module.ts` - application root module.
+- `src/app.module.ts` - root NestJS application module.
   - `ConfigModule` loads environment variables globally.
-  - `TypeOrmModule` connects to Postgres for relational entities.
-  - `MongooseModule` connects to MongoDB for chat history.
-- `src/main.ts` - bootstraps NestJS and exposes the API under `/api`.
-- `src/health.controller.ts` - basic health check endpoint.
-- `src/modules/` - domain modules separated by responsibility.
-  - `auth/` - user auth endpoints.
-  - `users/` - users CRUD backed by TypeORM.
-  - `courses/` - courses CRUD backed by TypeORM.
-  - `chat/` - chat message storage backed by MongoDB.
+  - `TypeOrmModule` connects to PostgreSQL for relational models.
+  - `MongooseModule` connects to MongoDB for chat storage.
+- `src/config/env.config.ts` - central env validation for required variables.
+- `src/main.ts` - bootstraps the backend and sets `/api` as the global prefix.
+- `src/modules/` - domain-oriented modules.
+  - `auth/` - login, registration, JWT handling.
+  - `users/` - user CRUD and entity logic.
+  - `courses/` - course CRUD and metadata.
+  - `chat/` - Mongo-based chat message persistence.
 
-### Backend routes
+### API conventions
 
-- `POST /api/auth/login`
-- `POST /api/auth/register`
-- `GET /api/users`
-- `POST /api/users`
-- `GET /api/courses`
-- `GET /api/courses/:id`
-- `POST /api/courses`
-- `GET /api/chat/:roomId`
-- `POST /api/chat`
+- Base path: `/api`
+- Auth: `POST /api/auth/login`, `POST /api/auth/register`
+- Users: `GET /api/users`, `POST /api/users`
+- Courses: `GET /api/courses`, `GET /api/courses/:id`, `POST /api/courses`
+- Chat: `GET /api/chat/:roomId`, `POST /api/chat`
 
 ### Backend environment
 
-- `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASS` for Postgres.
-- `MONGO_URI` and `NOSQL_URL` for MongoDB.
-- `PORT` for the app server.
+Required variables are defined in `backend/.env.example`:
+
+- `PORT`
+- `JWT_SECRET`
+- `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASS`, `DB_NAME`
+- `MONGO_URI`
 
 ## Mobile
 
 Location: `mobile/`
 
-- `App.js` - application entry point.
-- `navigation/AppNavigator.js` - route-based navigation with screens.
-- `screens/` - separate screen components for each route.
-- `components/` - shared UI primitives used across screens.
+- `App.js` - app entry point.
+- `navigation/AppNavigator.js` - route configuration and stack navigation.
+- `screens/` - feature screens such as login, home, meeting, progress, etc.
+- `components/` - reusable UI and application primitives.
+- `config.js` - central API URL helper for environment-based configuration.
 
-### Mobile architecture goals
+### Mobile configuration
 
-- Keep screen logic separated from presentational components.
-- Use React Navigation for route-based flows.
-- Avoid large single-file UI implementations.
+- Use `.env` values with `EXPO_PUBLIC_API_URL`.
+- Keep UI screens focused on screen-level logic.
+- Prefer small reusable components over large monolithic screens.
 
-## Development notes
+## Standards for this repo
 
-- Use different modules for backend domains so logic is isolated and easier to extend.
-- Keep API surface stable and versioned by route prefixes.
-- Use environment-specific configuration for database connections.
-- Keep mobile screens self-contained and reuse common UI components.
+- One clear responsibility per module.
+- Environment variables should be validated and documented.
+- Shared root scripts should be used for repetitive commands.
+- CI should run the same install/build steps as local development.
